@@ -1,0 +1,61 @@
+{
+  "api": {
+    "names": [
+      "Квартира с видом на реку",
+      "Небольшой дом",
+      "Вилла",
+      "3-комнатная квартира",
+      "Квартира-студия"
+    ],
+    "descriptions": [
+      "Квартира с красивым видом и хорошим ремонтом",
+      "Сдается небольшой дом",
+      "Сдается вилла",
+      "3-комнатная квартира в центре",
+      "Сдается квартира-студия"
+    ],
+    "imagePreviews": [
+      "imagePreview1",
+      "imagePreview2",
+      "imagePreview3",
+      "imagePreview4",
+      "imagePreview5"
+    ],
+    "images": [
+      "image11;image12;image13",
+      "image21;image22;image23",
+      "image31;image32;image33",
+      "image41;image42;image43",
+      "image51;image52;image53;image54"
+    ],
+    "conveniences": [
+      "Air conditioning;Laptop friendly workspace;Baby seat;Washer;Towels;Fridge",
+      "Laptop friendly workspace;Baby seat;Washer;Towels;Fridge",
+      "Laptop friendly workspace",
+      "Baby seat;Washer;Towels;Fridge",
+      "Towels;Fridge"
+    ],
+    "authors": [
+      "Аркадий Паровозов",
+      "Акакий Акакьев",
+      "Анатолий Пешком",
+      "Виталя",
+      "Виталий Цаль"
+    ],
+    "commentsNumbers": [
+      "0",
+      "0",
+      "1",
+      "0",
+      "4"
+    ],
+    "coordinates": [
+      "48.85661,2.351499",
+      "50.938361,6.959974",
+      "50.846557,4.351697",
+      "52.370216,4.895168",
+      "53.550341,10.000654",
+      "51.225402,6.776314"
+    ]
+  }
+}
