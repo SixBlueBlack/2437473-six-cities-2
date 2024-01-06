@@ -1,8 +1,8 @@
 export enum ConvenienceType {
   Breakfast = 'Breakfast',
-  AirConditioning = 'Air conditioning',
-  LaptopFriendlyWorkspace = 'Laptop friendly workspace',
-  BabySeat = 'Baby seat',
+  AirConditioning = 'AirConditioning',
+  LaptopFriendlyWorkspace = 'LaptopFriendlyWorkspace',
+  BabySeat = 'BabySeat',
   Washer = 'Washer',
   Towels = 'Towels',
   Fridge = 'Fridge',

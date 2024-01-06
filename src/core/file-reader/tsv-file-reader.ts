@@ -10,7 +10,7 @@ export default class TSVFileReader extends EventEmitter implements FileReaderInt
   }
 
   public async read(): Promise<void> {
-    const stream = createReadStream(this.filename,{
+    const stream = createReadStream(this.filename, {
       highWaterMark: CHUNK_SIZE,
       encoding: 'utf-8',
     });
@@ -19,15 +19,17 @@ export default class TSVFileReader extends EventEmitter implements FileReaderInt
     let nextLinePosition = -1;
     let importedRowCount = 0;
 
-    for await (const chunk of stream){
+    for await (const chunk of stream) {
       remainingData += chunk.toString();
 
-      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0){
-        const completeRow = remainingData.slice(0,nextLinePosition + 1);
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
         remainingData = remainingData.slice(++nextLinePosition);
         importedRowCount++;
 
-        this.emit('line', completeRow);
+        await new Promise((resolve) => {
+          this.emit('line', completeRow, resolve);
+        });
       }
     }
 
