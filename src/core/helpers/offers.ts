@@ -3,6 +3,8 @@ import {CityType} from '../../types/city-type.enum.js';
 import {HousingType} from '../../types/housing-type.enum.js';
 import {ConvenienceType} from '../../types/convenience-type.enum.js';
 import {User} from '../../types/user.type.js';
+import {UserType} from '../../types/user-type.enum';
+import {Coordinates} from '../../types/coordinates.type';
 
 export function createOffer(offerData: string): Offer {
   const [
@@ -20,9 +22,11 @@ export function createOffer(offerData: string): Offer {
     guestsNumber,
     rentalPrice,
     conveniences,
-    author,
+    authorInfo,
     commentsNumber,
     coordinates] = offerData.replace('\n', '').split('\t');
+
+  const authorInfoArray = authorInfo.split(';');
 
   return {
     title,
@@ -38,10 +42,15 @@ export function createOffer(offerData: string): Offer {
     roomsNumber: Number.parseInt(roomsNumber, 10),
     guestsNumber: Number.parseInt(guestsNumber, 10),
     rentalPrice: Number.parseInt(rentalPrice, 10),
-    conveniences: conveniences.split(';') as unknown as ConvenienceType,
-    author: author as unknown as User,
+    conveniences: conveniences.split(';').map((x) => x as ConvenienceType),
+    author: {
+      name: authorInfoArray[0],
+      email: authorInfoArray[1],
+      avatar: authorInfoArray[2],
+      type: authorInfoArray[3] as UserType
+    } as User,
     commentsNumber: Number.parseInt(commentsNumber, 10),
     coordinates: coordinates.split(',').map((number) =>
-      Number.parseFloat(number)) as unknown as ConvenienceType
+      Number.parseFloat(number)) as unknown as Coordinates
   } as unknown as Offer;
 }
