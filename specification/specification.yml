@@ -1,0 +1,625 @@
+openapi: '3.0.2'
+info:
+  title: API сервер для проекта "Шесть городов"
+  description: |-
+    * Список ресурсов и маршрутов сервера "Шесть городов"
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+tags:
+  - name: offers
+    description: Действия с объявлениями.
+  - name: users
+    description: Действия с пользователем.
+  - name: comments
+    description: Действия с комментариями.
+paths:
+  /offers:
+    post:
+      tags:
+        - offers
+      summary: Создание предложения по аренде
+      description: Создает предложение по аренде
+      security:
+        - Bearer: []
+
+      requestBody:
+        description: Информация для создания нового предложения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOffer'
+        required: true
+      
+      responses:
+        "201":
+          description: 'Предложение создано'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        
+        "400":
+          description: 'Неверные данные'
+        
+        "401":
+          description: 'Не авторизован'
+
+    get:
+      tags:
+        - offers
+      summary: Список предложений по аренде
+      description: Возвращает список предложений по аренде
+      parameters:
+        - name: count
+          in: query
+          description: OFFER COUNT
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 60
+
+      responses:
+        "200":
+          description: 'Список был возвращен'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+        
+  /offers/{offerId}:
+    put:
+      tags:
+        - offers
+      summary: Обновление предложения по аренде
+      description: Обновить предложение по аренде
+      security:
+        - Bearer: []
+
+      requestBody:
+        description: Информация для обновления предложения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offer'
+        required: true
+      responses:
+        "201":
+          description: 'Предложение обновлено'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        
+        "400":
+          description: 'Неверные данные'
+        
+        "401":
+          description: 'Не авторизован'
+
+        "404":
+          description: 'Нет предложения по такому offerId'
+
+    delete:
+      tags:
+        - offers
+      summary: Удаление предложения по аренде
+      description: Удалить предложение по аренде
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: 'Успешно удалено'
+          
+        "401":
+          description: 'Не авторизован'
+
+        "404":
+          description: 'Нет предложения по такому offerId'
+
+    get:
+      tags:
+          - offers
+      summary: Информация о предложении по аренде
+      description: Возвращает информацию о предложении по аренде
+
+      responses:
+        "200":
+          description: 'Список был возвращен'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+
+        "404":
+          description: 'Нет предложения по такому offerId'
+
+
+  /offers/premium/{city}:
+    get:
+      tags:
+        - offers
+      summary: Премиальные предложения для города
+      description: Возвращает список премиальных предложений для города
+      responses:
+        "200":
+          description: 'Список был возвращен'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+
+  /offers/favourites:
+    post:
+      tags:
+        - offers
+      summary: Добавление предложение в избранное
+      description: Добавляет предложение в избранное
+      security:
+        - Bearer: [ ]
+      responses:
+        "200":
+          description: Предложение успешно добавлено в избранное
+
+        "401":
+          description: 'Не авторизован'
+
+        "404":
+          description: 'Нет предложения по такому offerId'
+
+    delete:
+      tags:
+        - offers
+      summary: Удаление предложения из избранного
+      description: Удаляет предложение из избранного
+      security:
+        - Bearer: [ ]
+      responses:
+        "200":
+          description: Предложение успешно удалено из избранного
+
+        "401":
+          description: 'Не авторизован'
+
+        "404":
+          description: 'Нет предложения по такому offerId'
+          
+    get:
+      tags:
+        - offers
+      summary: Список избранных предложений
+      description: Возвращает cписок избранных предложений
+      security:
+        - Bearer: [ ]
+      responses:
+        "200":
+          description: Список избранных предложений успешно возвращен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+
+        "401":
+          description: 'Не авторизован'
+
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя
+      description: Регистрирует нового пользователя
+
+      requestBody:
+        description: Информация для создания нового пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        "201":
+          description: 'Пользователь зарегистрирован. Объект пользователя'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        
+        "409":
+          description: 'Пользователь с таким email уже существует'
+  
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Вход в закрытую часть приложения
+      description: Вход в закрытую часть приложения на основе логина и пароля
+
+      requestBody:
+        description: Информация для входа в закрытую часть приложения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginUser'
+        required: true
+
+      responses:
+        "200":
+          description: 'Вход успешен'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: 23f2f23432ds3sae
+        
+        "401":
+          description: 'Авторизация не удалась'
+
+    get:
+      tags:
+        - users
+      summary: Проверка состояния пользователя
+      description: Проверяет состояние пользователя
+      security:
+        - Bearer: [ ]
+      responses:
+        "200":
+          description: Возвращает информацию о текущем пользователе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        "401":
+          description: 'Не авторизован'
+  
+  /users/logout:
+    post:
+      tags:
+        - users
+      summary: Выход из закрытой части приложения
+      description: Выполняется выход из закрытой части приложения
+      responses:
+        "200":
+          description: Выход успешен
+        "401":
+          description: 'Не авторизован'
+
+  /comments/{offerId}:
+    get:
+      tags:
+        - comments
+      summary: Список комментариев для предложения
+      description: Возвращает cписок комментариев для предложения
+
+      responses:
+        "200":
+          description: 'Список успешно возвращен'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/comment'
+        
+        "404":
+          description: 'Нет предложения по такому offerId'
+
+    post:
+      tags:
+        - comments
+      summary: Создает комментарий для предложения
+      description: Создать комментарий для предложения
+      security:
+          - Bearer: [ ]
+      requestBody:
+        description: Информация создания комментария
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comment'
+        required: true
+
+      responses:
+        "201":
+          description: 'Комментарий успешно создан'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+
+        "401": 
+          description: 'Не авторизован'
+
+        "404":
+          description: 'Нет предложения по такому offerId'
+
+
+components:
+  schemas:
+    coordinates:
+      type: object
+
+      properties:
+        latitude:
+          type: number
+          example: 48.85661
+
+        longitude:
+          type: number
+          example: 2.351499
+          
+    createUser:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: akakiy@gmail.com
+
+        name:
+          type: string
+          example: Акакий Акакиевич
+
+        password:
+          type: string
+          example: 1234
+
+        avatar:
+          type: string
+          example: 1.png
+
+        userType:
+          type: string
+          enum: [Common, Pro]
+          example: Common
+
+    loginUser:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: akakiy@gmail.com
+
+        password:
+          type: string
+          example: 1234
+    
+    user:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 3n5id99932nf299nfnss88aa
+
+        email:
+          type: string
+          example: akakiy@gmail.com
+
+        avatar:
+          type: string
+          example: 1.png
+
+        userType:
+          type: string
+          enum: [Common, Pro]
+          example: Common
+    
+    createOffer:
+      type: object
+
+      properties:
+        title:
+          type: string
+          example: Небольшой дом
+          minLength: 10
+          maxLength: 100
+
+        description:
+          type: string
+          example: Сдается небольшой дом
+          minLength: 20
+          maxLength: 1024
+
+        postDate:
+          type: string
+          format: date
+          example: 07.10.2023
+
+        city:
+          type: string
+          enum: [ Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf ]
+          example: Dusseldorf
+        
+        imagePreview:
+          type: string
+          example: preview2.png
+
+        photos:
+          type: array
+          items:
+            type: string
+          example: [ 1.png, 2.png, 3.png, 4.png, 5.png, 6.png ]
+
+        isPremium:
+          type: boolean
+          
+        isFavourite:
+          type: boolean
+
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+
+        housingType:
+          type: string
+          enum: [ Apartment, House, Room, Hotel ]
+          example: House
+
+        roomsNumber:
+          type: integer
+          minimum: 1
+          maximum: 8
+
+        guestsNumber:
+          type: integer
+          minimum: 1
+          maximum: 10
+
+        rentalPrice:
+          type: number
+          minimum: 100
+          maximum: 100000
+
+        conveniences:
+          type: array
+          items:
+            type: string
+            enum: [ Breakfast, Air conditioning, Laptop friendly workspace, Baby seat, Washer, Towels, Fridge ]
+          example: [ Breakfast, Air conditioning ]
+        
+        author:
+          $ref: '#/components/schemas/user'
+
+        commentsNumber:
+          type: integer
+          example: 0
+        
+        coordinates:
+          $ref: '#/components/schemas/coordinates'
+
+    offer:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 3n5id99932nf299nfnss88aa
+
+        title:
+          type: string
+          example: Небольшой дом
+          minLength: 10
+          maxLength: 100
+
+        description:
+          type: string
+          example: Сдается небольшой дом
+          minLength: 20
+          maxLength: 1024
+
+        postDate:
+          type: string
+          format: date
+          example: 07.10.2023
+
+        city:
+          type: string
+          enum: [ Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf ]
+          example: Dusseldorf
+        
+        imagePreview:
+          type: string
+          example: preview2.png
+
+        photos:
+          type: array
+          items:
+            type: string
+          example: [ 1.png, 2.png, 3.png, 4.png, 5.png, 6.png ]
+
+        isPremium:
+          type: boolean
+          
+        isFavourite:
+          type: boolean
+
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+
+        housingType:
+          type: string
+          enum: [ Apartment, House, Room, Hotel ]
+          example: House
+
+        roomsNumber:
+          type: integer
+          minimum: 1
+          maximum: 8
+
+        guestsNumber:
+          type: integer
+          minimum: 1
+          maximum: 10
+
+        rentalPrice:
+          type: number
+          minimum: 100
+          maximum: 100000
+
+        conveniences:
+          type: array
+          items:
+            type: string
+            enum: [ Breakfast, Air conditioning, Laptop friendly workspace, Baby seat, Washer, Towels, Fridge ]
+          example: [ Breakfast, Air conditioning ]
+        
+        author:
+          $ref: '#/components/schemas/user'
+
+        commentsNumber:
+          type: integer
+          example: 0
+        
+        coordinates:
+          $ref: '#/components/schemas/coordinates'
+
+    comment:
+      type: object
+
+      properties:
+        text:
+          type: string
+          example: Не понравилось
+          minLength: 5
+          maxLength: 1024
+
+        postDate:
+          type: string
+          format: date
+          example: 07.10.2023
+
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+
+        author:
+          $ref: '#/components/schemas/user'
+    
+
+        
+
+
+    
+
+
+
+        
+
+  
