@@ -5,6 +5,7 @@ import {UserEntity} from './user.entity.js';
 import {inject, injectable} from 'inversify';
 import {AppComponent} from '../../../types/app-component.enum.js';
 import {LoggerInterface} from '../../logger/logger.interface.js';
+import {OfferEntity} from '../offer/offer.entity.js';
 
 @injectable()
 export default class UserService implements UserServiceInterface {
@@ -12,6 +13,12 @@ export default class UserService implements UserServiceInterface {
     @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface,
     @inject(AppComponent.UserModel) private readonly userModel: types.ModelType<UserEntity>
   ) {
+  }
+
+  findById(userId: string): Promise<DocumentType<UserEntity, types.BeAnObject> | null> {
+    return this.userModel
+      .findById(userId)
+      .exec();
   }
 
   public async create(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
@@ -34,5 +41,13 @@ export default class UserService implements UserServiceInterface {
       return existedUser;
     }
     return this.create(dto, salt);
+  }
+
+  public async addToFavorites(userId: string, offerId: string): Promise<DocumentType<OfferEntity, types.BeAnObject>[] | null> {
+    return this.userModel.findByIdAndUpdate(userId, {$push: {favorite: offerId}, new: true});
+  }
+
+  public async deleteFromFavorites(userId: string, offerId: string): Promise<DocumentType<OfferEntity, types.BeAnObject>[] | null> {
+    return this.userModel.findByIdAndUpdate(userId, {$pull: {favorite: offerId}, new: true});
   }
 }
