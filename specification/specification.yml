@@ -155,7 +155,28 @@ paths:
                 items:
                   $ref: '#/components/schemas/offer'
 
-  /offers/favourites:
+  /offers/favourites:         
+    get:
+      tags:
+        - offers
+      summary: Список избранных предложений
+      description: Возвращает cписок избранных предложений
+      security:
+        - Bearer: [ ]
+      responses:
+        "200":
+          description: Список избранных предложений успешно возвращен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+                  
+        "401":
+          description: 'Не авторизован'
+
+  /offers/{offerId}/addFavourite:
     post:
       tags:
         - offers
@@ -173,6 +194,7 @@ paths:
         "404":
           description: 'Нет предложения по такому offerId'
 
+  /offers/{offerId}/deleteFavorite:
     delete:
       tags:
         - offers
@@ -189,26 +211,7 @@ paths:
 
         "404":
           description: 'Нет предложения по такому offerId'
-          
-    get:
-      tags:
-        - offers
-      summary: Список избранных предложений
-      description: Возвращает cписок избранных предложений
-      security:
-        - Bearer: [ ]
-      responses:
-        "200":
-          description: Список избранных предложений успешно возвращен
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/offer'
-
-        "401":
-          description: 'Не авторизован'
+  
 
   /users/register:
     post:

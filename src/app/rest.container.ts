@@ -11,10 +11,21 @@ import MongoClientService from '../core/database-client/mongo-client.service.js'
 
 export function createRestApplicationContainer() {
   const restApplicationContainer = new Container();
-  restApplicationContainer.bind<Application>(AppComponent.Application).to(Application).inSingletonScope();
-  restApplicationContainer.bind<LoggerInterface>(AppComponent.LoggerInterface).to(PinoService).inSingletonScope();
-  restApplicationContainer.bind<ConfigInterface<RestSchema>>(AppComponent.ConfigInterface).to(ConfigService).inSingletonScope();
-  restApplicationContainer.bind<DatabaseClientInterface>(AppComponent.DatabaseClientInterface).to(MongoClientService).inSingletonScope();
+  restApplicationContainer.bind<Application>(AppComponent.Application)
+    .to(Application)
+    .inSingletonScope();
+
+  restApplicationContainer.bind<LoggerInterface>(AppComponent.LoggerInterface)
+    .to(PinoService)
+    .inSingletonScope();
+
+  restApplicationContainer.bind<ConfigInterface<RestSchema>>(AppComponent.ConfigInterface)
+    .to(ConfigService)
+    .inSingletonScope();
+
+  restApplicationContainer.bind<DatabaseClientInterface>(AppComponent.DatabaseClientInterface)
+    .to(MongoClientService)
+    .inSingletonScope();
 
   return restApplicationContainer;
 }

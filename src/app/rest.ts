@@ -31,7 +31,7 @@ export default class Application {
     this.logger.info('Application initialized');
     this.logger.info(`Get value from env $PORT: ${this.config.get('PORT')}`);
 
-    this.logger.info('Init database...');
+    this.logger.info('Init database ...');
     await this._initDb();
     this.logger.info('Init database completed');
   }
