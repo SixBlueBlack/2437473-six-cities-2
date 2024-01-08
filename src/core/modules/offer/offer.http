@@ -1,0 +1,80 @@
+POST http://localhost:31337/offers/
+Content-Type: application/json
+
+{
+  "title": "Небольшой дом2",
+  "description": "Сдается небольшой дом",
+  "postDate": "07.10.2023",
+  "city": "Paris",
+  "imagePreview": "preview2.png",
+  "photos": [
+    "1.png",
+    "2.png",
+    "3.png",
+    "4.png",
+    "5.png",
+    "6.png"
+  ],
+  "isPremium": false,
+  "isFavourite": false,
+  "rating": 5,
+  "housingType": "House",
+  "roomsNumber": 8,
+  "guestsNumber": 10,
+  "rentalPrice": 100000,
+  "conveniences": [
+    "Breakfast",
+    "AirConditioning"
+  ],
+  "author": "659afb6521dd10af07b19fdc",
+  "commentsNumber": 0,
+  "coordinates": {
+    "latitude": 48.85661,
+    "longitude": 2.351499
+  }
+}
+
+###
+
+GET http://localhost:31337/offers/
+
+###
+@offerId = 659c245d8c5858f831724f66
+
+GET http://localhost:31337/offers/{{offerId}}
+
+###
+
+PUT http://localhost:31337/offers/{{offerId}}
+Content-Type: application/json
+
+{
+  "title": "Приличный дом",
+  "postDate": "01.01.2023"
+}
+
+###
+
+DELETE http://localhost:31337/offers/{{offerId}}
+
+###
+@city = Paris
+
+GET http://localhost:31337/offers/premium/{{city}}
+
+###
+
+GET http://localhost:31337/offers/favourites
+Content-Type: application/json
+
+{
+  "author": "659afb6521dd10af07b19fdc"
+}
+
+###
+
+POST http://localhost:31337/offers/{{offerId}}/addFavourite
+
+###
+
+DELETE http://localhost:31337/offers/{{offerId}}/deleteFavourite

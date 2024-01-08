@@ -26,7 +26,7 @@ export default class OfferService implements OfferServiceInterface {
   public async updateOfferById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity, types.BeAnObject> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, {new: true})
-      .populate('user')
+      .populate('author')
       .exec();
   }
 
@@ -36,7 +36,7 @@ export default class OfferService implements OfferServiceInterface {
       .find()
       .sort({createdAt: SortType.Down})
       .limit(limit)
-      .populate('user')
+      .populate('author')
       .exec();
   }
 
@@ -45,14 +45,15 @@ export default class OfferService implements OfferServiceInterface {
       .find({city: city, isPremium: true})
       .sort({createdAt: SortType.Down})
       .limit(MAX_PREMIUM_OFFER_COUNT)
-      .populate('user')
+      .populate('author')
       .exec();
   }
 
-  public async findFavouriteOffers(): Promise<DocumentType<OfferEntity, types.BeAnObject>[]> {
+  public async findFavouriteOffers(userId: string): Promise<DocumentType<OfferEntity, types.BeAnObject>[]> {
+    console.info(userId);
     return this.offerModel
-      .find({isFavourite: true})
-      .populate('user')
+      .find({isFavourite: true, author: userId})
+      .populate('author')
       .exec();
   }
 
@@ -79,11 +80,19 @@ export default class OfferService implements OfferServiceInterface {
   public async findOfferById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findById(offerId)
-      .populate('user')
+      .populate('author')
       .exec();
   }
 
   public async updateRating(offerId: string, newRating: number): Promise<void> {
     await this.offerModel.findByIdAndUpdate(offerId, {rating: newRating}).exec();
+  }
+
+  public async addToFavorites(offerId: string): Promise<void> {
+    await this.offerModel.findByIdAndUpdate(offerId, {isFavourite: true});
+  }
+
+  public async deleteFromFavorites(offerId: string): Promise<void> {
+    await this.offerModel.findByIdAndUpdate(offerId, {isFavourite: false});
   }
 }

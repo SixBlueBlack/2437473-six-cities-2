@@ -31,7 +31,7 @@ paths:
             schema:
               $ref: '#/components/schemas/createOffer'
         required: true
-      
+
       responses:
         "201":
           description: 'Предложение создано'
@@ -39,10 +39,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/offer'
-        
+
         "400":
           description: 'Неверные данные'
-        
+
         "401":
           description: 'Не авторизован'
 
@@ -69,8 +69,8 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/offer'
-        
+                  $ref: '#/components/schemas/offerRdo'
+
   /offers/{offerId}:
     put:
       tags:
@@ -94,10 +94,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/offer'
-        
+
         "400":
           description: 'Неверные данные'
-        
+
         "401":
           description: 'Не авторизован'
 
@@ -114,7 +114,7 @@ paths:
       responses:
         "200":
           description: 'Успешно удалено'
-          
+
         "401":
           description: 'Не авторизован'
 
@@ -153,9 +153,9 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/offer'
+                  $ref: '#/components/schemas/offerRdo'
 
-  /offers/favourites:         
+  /offers/favourites:
     get:
       tags:
         - offers
@@ -163,6 +163,15 @@ paths:
       description: Возвращает cписок избранных предложений
       security:
         - Bearer: [ ]
+      requestBody:
+        description: Id пользователя
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                author:
+                  type: string
       responses:
         "200":
           description: Список избранных предложений успешно возвращен
@@ -171,8 +180,8 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/offer'
-                  
+                  $ref: '#/components/schemas/offerRdo'
+
         "401":
           description: 'Не авторизован'
 
@@ -211,7 +220,7 @@ paths:
 
         "404":
           description: 'Нет предложения по такому offerId'
-  
+
 
   /users/register:
     post:
@@ -235,10 +244,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
-        
+
         "409":
           description: 'Пользователь с таким email уже существует'
-  
+
   /users/login:
     post:
       tags:
@@ -265,7 +274,7 @@ paths:
                   token:
                     type: string
                     example: 23f2f23432ds3sae
-        
+
         "401":
           description: 'Авторизация не удалась'
 
@@ -285,7 +294,7 @@ paths:
                 $ref: '#/components/schemas/user'
         "401":
           description: 'Не авторизован'
-  
+
   /users/logout:
     post:
       tags:
@@ -314,7 +323,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/comment'
-        
+
         "404":
           description: 'Нет предложения по такому offerId'
 
@@ -341,7 +350,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/comment'
 
-        "401": 
+        "401":
           description: 'Не авторизован'
 
         "404":
@@ -361,7 +370,7 @@ components:
         longitude:
           type: number
           example: 2.351499
-          
+
     createUser:
       type: object
 
@@ -398,7 +407,7 @@ components:
         password:
           type: string
           example: 1234
-    
+
     user:
       type: object
 
@@ -419,7 +428,7 @@ components:
           type: string
           enum: [Common, Pro]
           example: Common
-    
+
     createOffer:
       type: object
 
@@ -445,7 +454,7 @@ components:
           type: string
           enum: [ Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf ]
           example: Dusseldorf
-        
+
         imagePreview:
           type: string
           example: preview2.png
@@ -458,7 +467,7 @@ components:
 
         isPremium:
           type: boolean
-          
+
         isFavourite:
           type: boolean
 
@@ -491,16 +500,17 @@ components:
           type: array
           items:
             type: string
-            enum: [ Breakfast, Air conditioning, Laptop friendly workspace, Baby seat, Washer, Towels, Fridge ]
-          example: [ Breakfast, Air conditioning ]
-        
+            enum: [ Breakfast, AirConditioning, LaptopFriendlyWorkspace, BabySeat, Washer, Towels, Fridge ]
+          example: [ Breakfast, AirConditioning ]
+
         author:
-          $ref: '#/components/schemas/user'
+          type: string
+          example: 659afe1787f24b2daf18ce7b
 
         commentsNumber:
           type: integer
           example: 0
-        
+
         coordinates:
           $ref: '#/components/schemas/coordinates'
 
@@ -533,7 +543,7 @@ components:
           type: string
           enum: [ Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf ]
           example: Dusseldorf
-        
+
         imagePreview:
           type: string
           example: preview2.png
@@ -546,7 +556,7 @@ components:
 
         isPremium:
           type: boolean
-          
+
         isFavourite:
           type: boolean
 
@@ -581,16 +591,67 @@ components:
             type: string
             enum: [ Breakfast, Air conditioning, Laptop friendly workspace, Baby seat, Washer, Towels, Fridge ]
           example: [ Breakfast, Air conditioning ]
-        
+
         author:
-          $ref: '#/components/schemas/user'
+          type: string
+          example: 659afe1787f24b2daf18ce7b
 
         commentsNumber:
           type: integer
           example: 0
-        
+
         coordinates:
           $ref: '#/components/schemas/coordinates'
+
+    offerRdo:
+      type: object
+
+      properties:
+        title:
+          type: string
+          example: Небольшой дом
+          minLength: 10
+          maxLength: 100
+
+        postDate:
+          type: string
+          format: date
+          example: 07.10.2023
+
+        city:
+          type: string
+          enum: [ Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf ]
+          example: Dusseldorf
+
+        imagePreview:
+          type: string
+          example: preview2.png
+
+        isPremium:
+          type: boolean
+
+        isFavourite:
+          type: boolean
+
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+
+        housingType:
+          type: string
+          enum: [ Apartment, House, Room, Hotel ]
+          example: House
+
+        rentalPrice:
+          type: number
+          minimum: 100
+          maximum: 100000
+
+        commentsNumber:
+          type: integer
+          example: 0
+
 
     comment:
       type: object
@@ -614,15 +675,14 @@ components:
 
         author:
           $ref: '#/components/schemas/user'
-    
-
-        
-
-
-    
 
 
 
-        
 
-  
+
+
+
+
+
+
+
