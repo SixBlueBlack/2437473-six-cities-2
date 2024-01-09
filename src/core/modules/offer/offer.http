@@ -1,6 +1,6 @@
 POST http://localhost:31337/offers/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTJAbWFpbC5ydSIsImlkIjoiNjU5ZGE0ZjBmNDkzNzlhOGIyZjhmMTgzIiwiaWF0IjoxNzA0ODMwMjAyLCJleHAiOjE3MDUwMDMwMDJ9.7T0CynXo_sOUxFAbCznhSRmjsC4Zr_pieNwG4j-teEc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTIzQG1haWwucnUiLCJpZCI6IjY1OWRhYTYwODM5NWJlMzhhMTBmMTI5ZSIsImlhdCI6MTcwNDgzMTU5MiwiZXhwIjoxNzA1MDA0MzkyfQ.p4LK0E1r4tHhWtlp9B0DIJkop-AhnEdr5r9TXFffs90
 
 {
   "title": "asdgadsgfds",
@@ -35,7 +35,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTJAbWFpbC5ydSIsI
 GET http://localhost:31337/offers/
 
 ###
-@offerId = 659da9a85f54297bdb79469d
+@offerId = 659daac28395be38a10f12b1
 
 GET http://localhost:31337/offers/{{offerId}}
 
@@ -43,7 +43,7 @@ GET http://localhost:31337/offers/{{offerId}}
 
 PUT http://localhost:31337/offers/{{offerId}}
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTJAbWFpbC5ydSIsImlkIjoiNjU5ZGE0ZjBmNDkzNzlhOGIyZjhmMTgzIiwiaWF0IjoxNzA0ODMwMjAyLCJleHAiOjE3MDUwMDMwMDJ9.7T0CynXo_sOUxFAbCznhSRmjsC4Zr_pieNwG4j-teEc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTIzQG1haWwucnUiLCJpZCI6IjY1OWRhYTYwODM5NWJlMzhhMTBmMTI5ZSIsImlhdCI6MTcwNDgzMTU5MiwiZXhwIjoxNzA1MDA0MzkyfQ.p4LK0E1r4tHhWtlp9B0DIJkop-AhnEdr5r9TXFffs90
 
 {
   "title": "Приличный дом",
@@ -53,7 +53,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTJAbWFpbC5ydSIsI
 ###
 
 DELETE http://localhost:31337/offers/{{offerId}}
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTJAbWFpbC5ydSIsImlkIjoiNjU5ZGE0ZjBmNDkzNzlhOGIyZjhmMTgzIiwiaWF0IjoxNzA0ODMwMjAyLCJleHAiOjE3MDUwMDMwMDJ9.7T0CynXo_sOUxFAbCznhSRmjsC4Zr_pieNwG4j-teEc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTIzQG1haWwucnUiLCJpZCI6IjY1OWRhYTYwODM5NWJlMzhhMTBmMTI5ZSIsImlhdCI6MTcwNDgzMTU5MiwiZXhwIjoxNzA1MDA0MzkyfQ.p4LK0E1r4tHhWtlp9B0DIJkop-AhnEdr5r9TXFffs90
 
 ###
 @city = Paris
@@ -64,17 +64,17 @@ GET http://localhost:31337/offers/premium/{{city}}
 
 GET http://localhost:31337/offers/favourites
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTJAbWFpbC5ydSIsImlkIjoiNjU5ZGE0ZjBmNDkzNzlhOGIyZjhmMTgzIiwiaWF0IjoxNzA0ODMwMjAyLCJleHAiOjE3MDUwMDMwMDJ9.7T0CynXo_sOUxFAbCznhSRmjsC4Zr_pieNwG4j-teEc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTIzQG1haWwucnUiLCJpZCI6IjY1OWRhYTYwODM5NWJlMzhhMTBmMTI5ZSIsImlhdCI6MTcwNDgzMTU5MiwiZXhwIjoxNzA1MDA0MzkyfQ.p4LK0E1r4tHhWtlp9B0DIJkop-AhnEdr5r9TXFffs90
 
 
 ###
 
 POST http://localhost:31337/offers/{{offerId}}/addFavourite
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTJAbWFpbC5ydSIsImlkIjoiNjU5ZGE0ZjBmNDkzNzlhOGIyZjhmMTgzIiwiaWF0IjoxNzA0ODMwMjAyLCJleHAiOjE3MDUwMDMwMDJ9.7T0CynXo_sOUxFAbCznhSRmjsC4Zr_pieNwG4j-teEc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTIzQG1haWwucnUiLCJpZCI6IjY1OWRhYTYwODM5NWJlMzhhMTBmMTI5ZSIsImlhdCI6MTcwNDgzMTU5MiwiZXhwIjoxNzA1MDA0MzkyfQ.p4LK0E1r4tHhWtlp9B0DIJkop-AhnEdr5r9TXFffs90
 
 
 ###
 
 DELETE http://localhost:31337/offers/{{offerId}}/deleteFavourite
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTJAbWFpbC5ydSIsImlkIjoiNjU5ZGE0ZjBmNDkzNzlhOGIyZjhmMTgzIiwiaWF0IjoxNzA0ODMwMjAyLCJleHAiOjE3MDUwMDMwMDJ9.7T0CynXo_sOUxFAbCznhSRmjsC4Zr_pieNwG4j-teEc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTIzQG1haWwucnUiLCJpZCI6IjY1OWRhYTYwODM5NWJlMzhhMTBmMTI5ZSIsImlhdCI6MTcwNDgzMTU5MiwiZXhwIjoxNzA1MDA0MzkyfQ.p4LK0E1r4tHhWtlp9B0DIJkop-AhnEdr5r9TXFffs90
 

@@ -1,8 +1,8 @@
-@offerId = 659da837b82e1f5353f768c4
+@offerId = 659dab308395be38a10f12ef
 
 POST http://localhost:31337/comments/{{offerId}}/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTJAbWFpbC5ydSIsImlkIjoiNjU5ZGE0ZjBmNDkzNzlhOGIyZjhmMTgzIiwiaWF0IjoxNzA0ODMwMjAyLCJleHAiOjE3MDUwMDMwMDJ9.7T0CynXo_sOUxFAbCznhSRmjsC4Zr_pieNwG4j-teEc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTIzQG1haWwucnUiLCJpZCI6IjY1OWRhYTYwODM5NWJlMzhhMTBmMTI5ZSIsImlhdCI6MTcwNDgzMTU5MiwiZXhwIjoxNzA1MDA0MzkyfQ.p4LK0E1r4tHhWtlp9B0DIJkop-AhnEdr5r9TXFffs90
 
 {
   "text": "Не понравилось",
@@ -11,7 +11,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTJAbWFpbC5ydSIsI
 
   "rating": 3,
 
-  "offerId": "659afb6521dd10af07b19fde"
+  "offerId": "659dab308395be38a10f12ef"
 }
 
 ###

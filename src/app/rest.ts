@@ -10,6 +10,7 @@ import {ExceptionFilterInterface} from '../core/exception-filters/exception-filt
 import {ControllerInterface} from '../core/controller/controller.interface.js';
 import {AuthenticateMiddleware} from '../core/middleware/authenticate.middleware.js';
 import {getFullServerPath} from '../core/helpers/common.js';
+import cors from 'cors';
 
 @injectable()
 export default class Application {
@@ -53,6 +54,7 @@ export default class Application {
 
     const authenticationMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
     this.expressApplication.use(authenticationMiddleware.execute.bind(authenticationMiddleware));
+    this.expressApplication.use(cors());
     this.logger.info('Global middleware initialization completed');
   }
 

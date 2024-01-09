@@ -295,18 +295,6 @@ paths:
         "401":
           description: 'Не авторизован'
 
-  /users/logout:
-    post:
-      tags:
-        - users
-      summary: Выход из закрытой части приложения
-      description: Выполняется выход из закрытой части приложения
-      responses:
-        "200":
-          description: Выход успешен
-        "401":
-          description: 'Не авторизован'
-
   /comments/{offerId}:
     get:
       tags:
@@ -455,10 +443,6 @@ components:
           enum: [ Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf ]
           example: Dusseldorf
 
-        imagePreview:
-          type: string
-          example: preview2.png
-
         photos:
           type: array
           items:
@@ -467,14 +451,6 @@ components:
 
         isPremium:
           type: boolean
-
-        isFavourite:
-          type: boolean
-
-        rating:
-          type: number
-          minimum: 1
-          maximum: 5
 
         housingType:
           type: string
@@ -502,14 +478,6 @@ components:
             type: string
             enum: [ Breakfast, AirConditioning, LaptopFriendlyWorkspace, BabySeat, Washer, Towels, Fridge ]
           example: [ Breakfast, AirConditioning ]
-
-        author:
-          type: string
-          example: 659afe1787f24b2daf18ce7b
-
-        commentsNumber:
-          type: integer
-          example: 0
 
         coordinates:
           $ref: '#/components/schemas/coordinates'
@@ -671,10 +639,6 @@ components:
         rating:
           type: number
           minimum: 1
-
-        author:
-          type: string
-          example: 659afe1787f24b2daf18ce7b
 
 
 

@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "name": "aboba",
-  "email": "aboba12@mail.ru",
+  "email": "aboba123@mail.ru",
   "password": "123456",
   "type": "Common"
 }
@@ -26,11 +26,11 @@ POST http://localhost:31337/users/login
 Content-Type: application/json
 
 {
-  "email": "aboba12@mail.ru",
+  "email": "aboba123@mail.ru",
   "password": "123456"
 }
 
 ###
 
 GET http://localhost:31337/users/login
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTJAbWFpbC5ydSIsImlkIjoiNjU5ZGE0ZjBmNDkzNzlhOGIyZjhmMTgzIiwiaWF0IjoxNzA0ODMwMjAyLCJleHAiOjE3MDUwMDMwMDJ9.7T0CynXo_sOUxFAbCznhSRmjsC4Zr_pieNwG4j-teEc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTIzQG1haWwucnUiLCJpZCI6IjY1OWRhYTYwODM5NWJlMzhhMTBmMTI5ZSIsImlhdCI6MTcwNDgzMTU5MiwiZXhwIjoxNzA1MDA0MzkyfQ.p4LK0E1r4tHhWtlp9B0DIJkop-AhnEdr5r9TXFffs90
