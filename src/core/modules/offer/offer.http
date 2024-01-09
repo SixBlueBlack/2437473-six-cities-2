@@ -4,7 +4,7 @@ Content-Type: application/json
 {
   "title": "Небольшой дом2",
   "description": "Сдается небольшой дом",
-  "postDate": "07.10.2023",
+  "postDate": "2023-07-09T19:00:00.000Z",
   "city": "Paris",
   "imagePreview": "preview2.png",
   "photos": [
@@ -27,7 +27,6 @@ Content-Type: application/json
     "AirConditioning"
   ],
   "author": "659afb6521dd10af07b19fdc",
-  "commentsNumber": 0,
   "coordinates": {
     "latitude": 48.85661,
     "longitude": 2.351499
@@ -50,7 +49,7 @@ Content-Type: application/json
 
 {
   "title": "Приличный дом",
-  "postDate": "01.01.2023"
+  "postDate": "2023-07-09T19:00:00.000Z"
 }
 
 ###

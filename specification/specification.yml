@@ -671,10 +671,10 @@ components:
         rating:
           type: number
           minimum: 1
-          maximum: 5
 
         author:
-          $ref: '#/components/schemas/user'
+          type: string
+          example: 659afe1787f24b2daf18ce7b
 
 
 
