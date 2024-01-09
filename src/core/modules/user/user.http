@@ -20,3 +20,18 @@ Content-Type: image/png
 
 < C:\Users\memas\WebstormProjects\2437473-six-cities-2\screen.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+POST http://localhost:31337/users/login
+Content-Type: application/json
+
+{
+  "email": "aboba@mail.ru",
+  "password": "123456"
+}
+
+###
+
+GET http://localhost:31337/users/login
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhQG1haWwucnUiLCJpZCI6IjY1OWQ3ZmE2NGFmZjM2NWFmOWJiNzExNiIsImlhdCI6MTcwNDgyMDY1NCwiZXhwIjoxNzA0OTkzNDU0fQ.pk5d3xC8UjrZ4XMfxN7U1FT_TKTmTrh7E4jhqBPq6aE

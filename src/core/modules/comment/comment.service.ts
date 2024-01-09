@@ -18,9 +18,18 @@ export default class CommentService implements CommentServiceInterface {
     const comment = await this.commentModel.create(dto);
     await this.offerService.incCommentCount(dto.offerId);
 
-    const offer = await this.offerService.findOfferById(dto.offerId);
-    const newRating = (offer!.rating + dto.rating) / offer!.commentsNumber;
+    const rating = await this.commentModel
+      .find({offerId: dto.offerId}).select('rating').exec();
 
+    let total = 0;
+    for (const element of rating) {
+      total += element.rating;
+    }
+
+    const offer = await this.offerService.findOfferById(dto.offerId);
+
+    const count = offer?.commentsNumber ?? 1;
+    const newRating = total / (count);
     await this.offerService.updateRating(dto.offerId, newRating);
     return comment.populate('author');
   }

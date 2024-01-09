@@ -8,6 +8,7 @@ import {getMongoURI} from '../core/helpers/db.js';
 import express, {Express} from 'express';
 import {ExceptionFilterInterface} from '../core/exception-filters/exception-filter.interface.js';
 import {ControllerInterface} from '../core/controller/controller.interface.js';
+import {AuthenticateMiddleware} from '../core/middleware/authenticate.middleware.js';
 
 @injectable()
 export default class Application {
@@ -43,6 +44,9 @@ export default class Application {
     this.logger.info('Global middleware initialization...');
     this.expressApplication.use(express.json());
     this.expressApplication.use('/upload', express.static(this.config.get('UPLOAD_DIRECTORY')));
+
+    const authenticationMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
+    this.expressApplication.use(authenticationMiddleware.execute.bind(authenticationMiddleware));
     this.logger.info('Global middleware initialization completed');
   }
 
