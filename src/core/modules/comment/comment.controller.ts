@@ -15,6 +15,7 @@ import HttpError from '../../errors/http-error.js';
 import {StatusCodes} from 'http-status-codes';
 import {ValidateObjectIdMiddleware} from '../../middleware/validate-objectId.middleware.js';
 import {ValidateDtoMiddleware} from '../../middleware/validate-dto.middleware.js';
+import {DocumentExistsMiddleware} from '../../middleware/document-exists.middleware.js';
 
 @injectable()
 export default class CommentController extends Controller {
@@ -31,14 +32,21 @@ export default class CommentController extends Controller {
       path: '/:offerId',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateObjectIdMiddleware('offerId'), new ValidateDtoMiddleware(CreateCommentDto)]
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateDtoMiddleware(CreateCommentDto),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
+      ]
     });
 
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Get,
       handler: this.getComments,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
+      ]
     });
   }
 
