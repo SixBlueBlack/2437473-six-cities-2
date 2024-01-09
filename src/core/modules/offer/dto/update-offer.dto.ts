@@ -6,7 +6,7 @@ import {
   IsArray,
   IsBoolean,
   IsDateString, IsEnum,
-  IsInt, IsMongoId, IsObject, IsOptional,
+  IsInt, IsObject, IsOptional,
   IsString,
   Max,
   MaxLength,
@@ -47,15 +47,6 @@ export class UpdateOfferDto {
   public isPremium?: boolean;
 
   @IsOptional()
-  @IsBoolean({message: 'isPremium must be boolean'})
-  public isFavourite?: boolean;
-
-  @IsOptional()
-  @Min(1, {message: 'Minimum rating must be 1'})
-  @Max(5, {message: 'Maximum rating must be 5'})
-  public rating?: number;
-
-  @IsOptional()
   @IsEnum(HousingType, {message: 'housingType must be one of the enum elements'})
   public housingType?: HousingType;
 
@@ -80,10 +71,6 @@ export class UpdateOfferDto {
   @IsArray({message: 'conveniences must be array'})
   @IsEnum(ConvenienceType, {each: true, message: 'convenience must be one of the enum elements'})
   public conveniences?: ConvenienceType[];
-
-  @IsOptional()
-  @IsMongoId({message: 'author field must be valid an id'})
-  public author?: string;
 
   @IsOptional()
   @IsObject({message: 'coordinates must be a Coordinates object'})

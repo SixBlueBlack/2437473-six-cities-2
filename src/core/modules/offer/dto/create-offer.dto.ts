@@ -8,7 +8,7 @@ import {
   IsDateString,
   IsEnum,
   IsInt,
-  IsMongoId, IsObject,
+  IsObject,
   IsString, Max, MaxLength,
   Min,
   MinLength
@@ -39,13 +39,6 @@ export default class CreateOfferDto {
   @IsBoolean({message: 'isPremium must be boolean'})
   public isPremium!: boolean;
 
-  @IsBoolean({message: 'isPremium must be boolean'})
-  public isFavourite!: boolean;
-
-  @Min(1, {message: 'Minimum rating must be 1'})
-  @Max(5, {message: 'Maximum rating must be 5'})
-  public rating!: number;
-
   @IsEnum(HousingType, {message: 'housingType must be one of the enum elements'})
   public housingType!: HousingType;
 
@@ -67,7 +60,6 @@ export default class CreateOfferDto {
   @IsEnum(ConvenienceType, {each: true, message: 'convenience must be one of the enum elements'})
   public conveniences!: ConvenienceType[];
 
-  @IsMongoId({message: 'author field must be valid an id'})
   public author!: string;
 
   @IsObject({message: 'coordinates must be a Coordinates object'})

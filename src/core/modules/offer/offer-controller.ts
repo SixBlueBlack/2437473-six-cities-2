@@ -17,12 +17,15 @@ import {ParamsOfferCity, ParamsOfferLimit, ParamsOfferId} from '../../../types/p
 import {ValidateObjectIdMiddleware} from '../../middleware/validate-objectId.middleware.js';
 import {ValidateDtoMiddleware} from '../../middleware/validate-dto.middleware.js';
 import {DocumentExistsMiddleware} from '../../middleware/document-exists.middleware.js';
+import {PrivateRouteMiddleware} from '../../middleware/private-route.middleware.js';
+import {UserServiceInterface} from '../user/user-service.interface.js';
 
 @injectable()
 export default class OfferController extends Controller {
   constructor(
     @inject(AppComponent.LoggerInterface) protected readonly logger: LoggerInterface,
     @inject(AppComponent.OfferServiceInterface) protected readonly offerService: OfferServiceInterface,
+    @inject(AppComponent.UserServiceInterface) protected readonly userService: UserServiceInterface
   ) {
     super(logger);
     this.logger.info('Register routes for ConfigController...');
@@ -31,17 +34,27 @@ export default class OfferController extends Controller {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)]
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateOfferDto)
+      ]
     });
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.getOfferList});
-    this.addRoute({path: '/favourites', method: HttpMethod.Get, handler: this.getFavourites});
+
+    this.addRoute({
+      path: '/favourites',
+      method: HttpMethod.Get,
+      handler: this.getFavourites,
+      middlewares: [new PrivateRouteMiddleware()]
+    });
 
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Put,
       handler: this.updateOffer,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(UpdateOfferDto),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
@@ -53,6 +66,7 @@ export default class OfferController extends Controller {
       method: HttpMethod.Delete,
       handler: this.deleteOffer,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
@@ -73,6 +87,7 @@ export default class OfferController extends Controller {
       method: HttpMethod.Post,
       handler: this.addFavourite,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
@@ -83,6 +98,7 @@ export default class OfferController extends Controller {
       method: HttpMethod.Delete,
       handler: this.deleteFavourite,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
@@ -92,11 +108,11 @@ export default class OfferController extends Controller {
   }
 
   public async create(
-    {body}: Request<UnknownRecord, UnknownRecord, CreateOfferDto>,
-    res: Response
+    {body, res}: Request<UnknownRecord, UnknownRecord, CreateOfferDto>,
+    _res: Response
   ) {
-    const result = await this.offerService.create(body);
-    this.created(res, result);
+    const result = await this.offerService.create({...body, author: res?.locals.author.id});
+    this.created(_res, result);
   }
 
   public async getOfferList({params}: Request<ParamsOfferLimit>, res: Response): Promise<void> {
@@ -143,26 +159,26 @@ export default class OfferController extends Controller {
   }
 
   public async getFavourites(
-    {body}: Request<UnknownRecord, UnknownRecord, { author: string }>,
-    res: Response
+    {res}: Request<UnknownRecord, UnknownRecord>,
+    _res: Response
   ) {
-    const offers = await this.offerService.findFavouriteOffers(body.author);
-    this.ok(res, fillDTO(IndexOfferRdo, offers));
+    const offers = await this.userService.findFavouriteOffers(res?.locals.author.id);
+    this.ok(_res, fillDTO(IndexOfferRdo, offers));
   }
 
   public async addFavourite(
-    {params}: Request<ParamsOfferId>,
-    res: Response
+    {params, res}: Request<ParamsOfferId>,
+    _res: Response
   ) {
-    await this.offerService.addToFavorites(params.offerId);
-    this.ok(res, 'Offer was added to favourites');
+    await this.userService.addToFavorites(params.offerId, res?.locals.author.id);
+    this.ok(_res, 'Offer was added to favourites');
   }
 
   public async deleteFavourite(
-    {params}: Request<ParamsOfferId>,
-    res: Response
+    {params, res}: Request<ParamsOfferId>,
+    _res: Response
   ) {
-    await this.offerService.deleteFromFavorites(params.offerId);
-    this.ok(res, 'Offer was deleted from favourites');
+    await this.userService.deleteFromFavorites(params.offerId, res?.locals.author.id);
+    this.ok(_res, 'Offer was deleted from favourites');
   }
 }

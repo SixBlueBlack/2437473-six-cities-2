@@ -12,7 +12,6 @@ export default class CreateCommentDto {
   @Max(5, {message: 'Maximum rating must be 5'})
   public rating!: number;
 
-  @IsMongoId({message: 'author field must be valid an id'})
   public author!: string;
 
   @IsMongoId({message: 'author field must be valid an id'})

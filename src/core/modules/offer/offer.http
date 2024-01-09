@@ -1,5 +1,6 @@
 POST http://localhost:31337/offers/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhQG1haWwucnUiLCJpZCI6IjY1OWQ3ZmE2NGFmZjM2NWFmOWJiNzExNiIsImlhdCI6MTcwNDgyMDY1NCwiZXhwIjoxNzA0OTkzNDU0fQ.pk5d3xC8UjrZ4XMfxN7U1FT_TKTmTrh7E4jhqBPq6aE
 
 {
   "title": "Небольшой дом2",
@@ -15,9 +16,8 @@ Content-Type: application/json
     "5.png",
     "6.png"
   ],
-  "isPremium": false,
+  "isPremium": true,
   "isFavourite": false,
-  "rating": 5,
   "housingType": "House",
   "roomsNumber": 8,
   "guestsNumber": 10,
@@ -26,7 +26,6 @@ Content-Type: application/json
     "Breakfast",
     "AirConditioning"
   ],
-  "author": "659afb6521dd10af07b19fdc",
   "coordinates": {
     "latitude": 48.85661,
     "longitude": 2.351499
@@ -38,7 +37,7 @@ Content-Type: application/json
 GET http://localhost:31337/offers/
 
 ###
-@offerId = 659afb6521dd10af07b19fde
+@offerId = 659d811161d4448e1b23cc21
 
 GET http://localhost:31337/offers/{{offerId}}
 
@@ -46,6 +45,7 @@ GET http://localhost:31337/offers/{{offerId}}
 
 PUT http://localhost:31337/offers/{{offerId}}
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhQG1haWwucnUiLCJpZCI6IjY1OWQ3ZmE2NGFmZjM2NWFmOWJiNzExNiIsImlhdCI6MTcwNDgyMDY1NCwiZXhwIjoxNzA0OTkzNDU0fQ.pk5d3xC8UjrZ4XMfxN7U1FT_TKTmTrh7E4jhqBPq6aE
 
 {
   "title": "Приличный дом",
@@ -55,6 +55,7 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:31337/offers/{{offerId}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhQG1haWwucnUiLCJpZCI6IjY1OWQ3ZmE2NGFmZjM2NWFmOWJiNzExNiIsImlhdCI6MTcwNDgyMDY1NCwiZXhwIjoxNzA0OTkzNDU0fQ.pk5d3xC8UjrZ4XMfxN7U1FT_TKTmTrh7E4jhqBPq6aE
 
 ###
 @city = Paris
@@ -65,15 +66,17 @@ GET http://localhost:31337/offers/premium/{{city}}
 
 GET http://localhost:31337/offers/favourites
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhQG1haWwucnUiLCJpZCI6IjY1OWQ3ZmE2NGFmZjM2NWFmOWJiNzExNiIsImlhdCI6MTcwNDgyMDY1NCwiZXhwIjoxNzA0OTkzNDU0fQ.pk5d3xC8UjrZ4XMfxN7U1FT_TKTmTrh7E4jhqBPq6aE
 
-{
-  "author": "659afb6521dd10af07b19fdc"
-}
 
 ###
 
 POST http://localhost:31337/offers/{{offerId}}/addFavourite
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhQG1haWwucnUiLCJpZCI6IjY1OWQ3ZmE2NGFmZjM2NWFmOWJiNzExNiIsImlhdCI6MTcwNDgyMDY1NCwiZXhwIjoxNzA0OTkzNDU0fQ.pk5d3xC8UjrZ4XMfxN7U1FT_TKTmTrh7E4jhqBPq6aE
+
 
 ###
 
 DELETE http://localhost:31337/offers/{{offerId}}/deleteFavourite
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhQG1haWwucnUiLCJpZCI6IjY1OWQ3ZmE2NGFmZjM2NWFmOWJiNzExNiIsImlhdCI6MTcwNDgyMDY1NCwiZXhwIjoxNzA0OTkzNDU0fQ.pk5d3xC8UjrZ4XMfxN7U1FT_TKTmTrh7E4jhqBPq6aE
+

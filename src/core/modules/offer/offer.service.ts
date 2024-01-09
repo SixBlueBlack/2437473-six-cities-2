@@ -49,15 +49,8 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  public async findFavouriteOffers(userId: string): Promise<DocumentType<OfferEntity, types.BeAnObject>[]> {
-    console.info(userId);
-    return this.offerModel
-      .find({isFavourite: true, author: userId})
-      .populate('author')
-      .exec();
-  }
-
   public async incCommentCount(offerId: string): Promise<DocumentType<OfferEntity, types.BeAnObject> | null> {
+    console.info(offerId);
     return this.offerModel.findByIdAndUpdate(offerId, {
       '$inc': {
         commentsNumber: 1,
@@ -86,13 +79,5 @@ export default class OfferService implements OfferServiceInterface {
 
   public async updateRating(offerId: string, newRating: number): Promise<void> {
     await this.offerModel.findByIdAndUpdate(offerId, {rating: newRating}).exec();
-  }
-
-  public async addToFavorites(offerId: string): Promise<void> {
-    await this.offerModel.findByIdAndUpdate(offerId, {isFavourite: true});
-  }
-
-  public async deleteFromFavorites(offerId: string): Promise<void> {
-    await this.offerModel.findByIdAndUpdate(offerId, {isFavourite: false});
   }
 }
