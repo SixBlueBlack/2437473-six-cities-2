@@ -29,9 +29,6 @@ export default class CreateOfferDto {
   @IsEnum(CityType, {message: 'city must be one of the enum elements'})
   public city!: CityType;
 
-  @IsString({message: 'imagePreview must be path to image'})
-  public imagePreview!: string;
-
   @IsArray({message: 'photos must be the array'})
   @IsString({each: true, message: 'must be path to photo'})
   public photos!: string[];

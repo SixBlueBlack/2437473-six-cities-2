@@ -1,8 +1,8 @@
-@offerId = 659d811161d4448e1b23cc21
+@offerId = 659da837b82e1f5353f768c4
 
 POST http://localhost:31337/comments/{{offerId}}/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhQG1haWwucnUiLCJpZCI6IjY1OWQ3ZmE2NGFmZjM2NWFmOWJiNzExNiIsImlhdCI6MTcwNDgyMDY1NCwiZXhwIjoxNzA0OTkzNDU0fQ.pk5d3xC8UjrZ4XMfxN7U1FT_TKTmTrh7E4jhqBPq6aE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhMTJAbWFpbC5ydSIsImlkIjoiNjU5ZGE0ZjBmNDkzNzlhOGIyZjhmMTgzIiwiaWF0IjoxNzA0ODMwMjAyLCJleHAiOjE3MDUwMDMwMDJ9.7T0CynXo_sOUxFAbCznhSRmjsC4Zr_pieNwG4j-teEc
 
 {
   "text": "Не понравилось",

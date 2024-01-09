@@ -31,7 +31,7 @@ export class UpdateOfferDto {
 
   @IsOptional()
   @IsEnum(CityType, {message: 'city must be one of the enum elements'})
-  public city!: CityType;
+  public city?: CityType;
 
   @IsOptional()
   @IsString({message: 'imagePreview must be path to image'})

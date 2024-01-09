@@ -32,7 +32,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public city!: CityType;
 
-  @prop({required: true})
+  @prop({default: ''})
   public imagePreview!: string;
 
   @prop({
@@ -44,7 +44,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({required: true})
   public isPremium!: boolean;
 
-  @prop({required: true})
+  @prop({default: false})
   public isFavourite!: boolean;
 
   @prop({default: 1, required: true, min: 1, max: 5})

@@ -19,15 +19,20 @@ import {ValidateDtoMiddleware} from '../../middleware/validate-dto.middleware.js
 import {DocumentExistsMiddleware} from '../../middleware/document-exists.middleware.js';
 import {PrivateRouteMiddleware} from '../../middleware/private-route.middleware.js';
 import {UserServiceInterface} from '../user/user-service.interface.js';
+import {ConfigInterface} from '../../config/config.interface.js';
+import {RestSchema} from '../../config/rest.schema.js';
+import {UploadFileMiddleware} from '../../middleware/upload-file.middleware.js';
+import UploadImageResponse from './rdo/upload-image.response.js';
 
 @injectable()
 export default class OfferController extends Controller {
   constructor(
     @inject(AppComponent.LoggerInterface) protected readonly logger: LoggerInterface,
     @inject(AppComponent.OfferServiceInterface) protected readonly offerService: OfferServiceInterface,
-    @inject(AppComponent.UserServiceInterface) protected readonly userService: UserServiceInterface
+    @inject(AppComponent.UserServiceInterface) protected readonly userService: UserServiceInterface,
+    @inject(AppComponent.ConfigInterface) protected readonly configService: ConfigInterface<RestSchema>
   ) {
-    super(logger);
+    super(logger, configService);
     this.logger.info('Register routes for ConfigController...');
 
     this.addRoute({
@@ -105,6 +110,17 @@ export default class OfferController extends Controller {
     });
 
     this.addRoute({path: '/premium/:city', method: HttpMethod.Get, handler: this.getPremium});
+
+    this.addRoute({
+      path: '/:offerId/image',
+      method: HttpMethod.Post,
+      handler: this.uploadImage,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'preview'),
+      ]
+    });
   }
 
   public async create(
@@ -112,6 +128,7 @@ export default class OfferController extends Controller {
     _res: Response
   ) {
     const result = await this.offerService.create({...body, author: res?.locals.author.id});
+    console.log(result);
     this.created(_res, result);
   }
 
@@ -180,5 +197,12 @@ export default class OfferController extends Controller {
   ) {
     await this.userService.deleteFromFavorites(params.offerId, res?.locals.author.id);
     this.ok(_res, 'Offer was deleted from favourites');
+  }
+
+  public async uploadImage(req: Request<ParamsOfferId>, res: Response) {
+    const {offerId} = req.params;
+    const updateDto = { imagePreview: req.file?.filename };
+    await this.offerService.updateOfferById(offerId, updateDto);
+    this.created(res, fillDTO(UploadImageResponse, {updateDto}));
   }
 }

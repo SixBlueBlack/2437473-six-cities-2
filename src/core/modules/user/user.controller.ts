@@ -19,15 +19,16 @@ import {UploadFileMiddleware} from '../../middleware/upload-file.middleware.js';
 import {JWT_ALGORITHM} from './user.constant.js';
 import LoggedUserRdo from './rdo/logged-user.rdo.js';
 import {PrivateRouteMiddleware} from '../../middleware/private-route.middleware.js';
+import UploadUserAvatarResponse from './rdo/upload-user-avatar.response.js';
 
 @injectable()
 export default class UserController extends Controller {
   constructor(
     @inject(AppComponent.LoggerInterface) protected readonly logger: LoggerInterface,
     @inject(AppComponent.UserServiceInterface) protected readonly userService: UserServiceInterface,
-    @inject(AppComponent.ConfigInterface) protected readonly configService: ConfigInterface<RestSchema>
+    @inject(AppComponent.ConfigInterface) protected readonly configService: ConfigInterface<RestSchema>,
   ) {
-    super(logger);
+    super(logger, configService);
     this.logger.info('Register routes for UserController...');
 
     this.addRoute({
@@ -78,7 +79,7 @@ export default class UserController extends Controller {
     const result = await this.userService.create(body, this.configService.get('SALT'));
     this.created(
       res,
-      fillDTO(UserRdo, result)
+      fillDTO(UserRdo, result),
     );
   }
 
@@ -105,7 +106,7 @@ export default class UserController extends Controller {
       }
     );
 
-    this.ok(res, fillDTO(LoggedUserRdo, {email: user.email, token}));
+    this.ok(res, {...fillDTO(LoggedUserRdo, user), token});
   }
 
   public async getUserInfo({res}: Request, _res: Response): Promise<void> {
@@ -123,8 +124,9 @@ export default class UserController extends Controller {
   }
 
   public async uploadAvatar(req: Request, res: Response) {
-    this.created(res, {
-      filepath: req.file?.path
-    });
+    const {userId} = req.params;
+    const uploadFile = {avatar: req.file?.filename};
+    await this.userService.updateById(userId, uploadFile);
+    this.created(res, fillDTO(UploadUserAvatarResponse, uploadFile));
   }
 }

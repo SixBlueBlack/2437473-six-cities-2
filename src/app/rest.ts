@@ -9,6 +9,7 @@ import express, {Express} from 'express';
 import {ExceptionFilterInterface} from '../core/exception-filters/exception-filter.interface.js';
 import {ControllerInterface} from '../core/controller/controller.interface.js';
 import {AuthenticateMiddleware} from '../core/middleware/authenticate.middleware.js';
+import {getFullServerPath} from '../core/helpers/common.js';
 
 @injectable()
 export default class Application {
@@ -18,10 +19,12 @@ export default class Application {
     @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface,
     @inject(AppComponent.ConfigInterface) private readonly config: ConfigInterface<RestSchema>,
     @inject(AppComponent.DatabaseClientInterface) private readonly databaseClient: DatabaseClientInterface,
-    @inject(AppComponent.ExceptionFilterInterface) private readonly exceptionFilter: ExceptionFilterInterface,
+    @inject(AppComponent.HttpErrorExceptionFilter) private readonly httpErrorExceptionFilter: ExceptionFilterInterface,
     @inject(AppComponent.UserController) private readonly userController: ControllerInterface,
     @inject(AppComponent.OfferController) private readonly offerController: ControllerInterface,
-    @inject(AppComponent.CommentController) private readonly commentController: ControllerInterface
+    @inject(AppComponent.CommentController) private readonly commentController: ControllerInterface,
+    @inject(AppComponent.BaseExceptionFilter) private readonly baseExceptionFilter: ExceptionFilterInterface,
+    @inject(AppComponent.ValidationExceptionFilter) private readonly validationExceptionFilter: ExceptionFilterInterface
   ) {
     this.expressApplication = express();
   }
@@ -36,7 +39,9 @@ export default class Application {
 
   private async _initExceptionFilters() {
     this.logger.info('Exception filter initialization');
-    this.expressApplication.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
+    this.expressApplication.use(this.validationExceptionFilter.catch.bind(this.validationExceptionFilter));
+    this.expressApplication.use(this.httpErrorExceptionFilter.catch.bind(this.httpErrorExceptionFilter));
+    this.expressApplication.use(this.baseExceptionFilter.catch.bind(this.baseExceptionFilter));
     this.logger.info('Exception filters completed');
   }
 
@@ -44,6 +49,7 @@ export default class Application {
     this.logger.info('Global middleware initialization...');
     this.expressApplication.use(express.json());
     this.expressApplication.use('/upload', express.static(this.config.get('UPLOAD_DIRECTORY')));
+    this.expressApplication.use('/static', express.static(this.config.get('STATIC_DIRECTORY_PATH')));
 
     const authenticationMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
     this.expressApplication.use(authenticationMiddleware.execute.bind(authenticationMiddleware));
@@ -56,7 +62,7 @@ export default class Application {
     const port = this.config.get('PORT');
     this.expressApplication.listen(port);
 
-    this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
+    this.logger.info(`Server started on ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
   }
 
   private async _initDb() {

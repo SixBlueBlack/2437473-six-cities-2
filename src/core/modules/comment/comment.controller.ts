@@ -15,15 +15,18 @@ import {ValidateObjectIdMiddleware} from '../../middleware/validate-objectId.mid
 import {ValidateDtoMiddleware} from '../../middleware/validate-dto.middleware.js';
 import {DocumentExistsMiddleware} from '../../middleware/document-exists.middleware.js';
 import {PrivateRouteMiddleware} from '../../middleware/private-route.middleware.js';
+import {ConfigInterface} from '../../config/config.interface.js';
+import {RestSchema} from '../../config/rest.schema.js';
 
 @injectable()
 export default class CommentController extends Controller {
   constructor(
     @inject(AppComponent.LoggerInterface) protected readonly logger: LoggerInterface,
     @inject(AppComponent.CommentServiceInterface) protected readonly commentService: CommentServiceInterface,
-    @inject(AppComponent.OfferServiceInterface) protected readonly offerService: OfferServiceInterface
+    @inject(AppComponent.OfferServiceInterface) protected readonly offerService: OfferServiceInterface,
+    @inject(AppComponent.ConfigInterface) protected readonly configService: ConfigInterface<RestSchema>
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for CommentController...');
 
