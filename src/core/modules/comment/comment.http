@@ -1,4 +1,4 @@
-@offerId = 659d811161d4448e1b23cc21
+@offerId = 659da2c072b3d567fe3f7f7b
 
 POST http://localhost:31337/comments/{{offerId}}/
 Content-Type: application/json
@@ -11,7 +11,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFib2JhQG1haWwucnUiLCJpZ
 
   "rating": 3,
 
-  "offerId": "659afb6521dd10af07b19fde"
+  "offerId": "659da2c072b3d567fe3f7f7b"
 }
 
 ###
