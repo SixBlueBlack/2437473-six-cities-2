@@ -38,7 +38,7 @@ Content-Type: application/json
 GET http://localhost:31337/offers/
 
 ###
-@offerId = 659c245d8c5858f831724f66
+@offerId = 659afb6521dd10af07b19fde
 
 GET http://localhost:31337/offers/{{offerId}}
 

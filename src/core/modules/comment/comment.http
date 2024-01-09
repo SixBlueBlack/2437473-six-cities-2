@@ -6,9 +6,9 @@ Content-Type: application/json
 {
   "text": "Не понравилось",
 
-  "postDate": "01.01.2023",
+  "postDate": "2023-07-09T19:00:00.000Z",
 
-  "rating": "3",
+  "rating": 3,
 
   "author": "659afb6521dd10af07b19fe1",
 

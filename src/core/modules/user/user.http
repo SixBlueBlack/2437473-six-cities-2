@@ -8,3 +8,15 @@ Content-Type: application/json
   "avatar": "1.png",
   "type": "Common"
 }
+
+###
+
+POST http://localhost:31337/users/659afb6521dd10af07b19fe1/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="screen.png"
+Content-Type: image/png
+
+< C:\Users\memas\WebstormProjects\2437473-six-cities-2\screen.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
